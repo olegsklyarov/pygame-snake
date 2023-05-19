@@ -1,0 +1,65 @@
+import pygame
+from .field import Field
+from .snake import Snake, Direction
+from .element import Element
+
+SCALE = 30
+ROWS = 10
+COLS = 20
+
+# x = randrange(0, ROWS)
+# y = randrange(0, COLS)
+
+def gen_new_apple(field: Field, snake: Snake) -> Element:
+  apple = None
+  while apple is None:
+    candidate = field.gen_random_element()
+    if not snake.contains(candidate):
+      apple = candidate
+  return apple
+  
+
+
+def main():
+  field = Field(ROWS, COLS)
+  snake = Snake(field)
+
+  pygame.init()
+  screen = pygame.display.set_mode([ROWS * SCALE, COLS * SCALE])
+  clock = pygame.time.Clock()
+  counter = 0
+  speed = 50
+  apple = gen_new_apple(field, snake)
+  running = True
+  while running:
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        print('quit event')
+        running = False
+
+    key = pygame.key.get_pressed()
+
+    if key[pygame.K_UP]:
+      snake.set_direction(Direction.DOWN)
+    if key[pygame.K_RIGHT]:
+      snake.set_direction(Direction.RIGHT)
+    if key[pygame.K_DOWN]:
+      snake.set_direction(Direction.UP)
+    if key[pygame.K_LEFT]:
+      snake.set_direction(Direction.LEFT)
+
+    screen.fill('black')
+
+    for e in snake.snake:
+      pygame.draw.rect(screen, pygame.Color('yellow'), (e.x * SCALE, e.y * SCALE, SCALE - 1, SCALE - 1))
+
+    pygame.draw.rect(screen, pygame.Color('RED'), (apple.x * SCALE, apple.y * SCALE, SCALE - 1, SCALE - 1))
+    
+    pygame.display.flip()
+    clock.tick(60)
+    counter += 1
+    if not counter % speed:
+      if snake.make_step(apple):
+        apple = gen_new_apple(field, snake)
+
+  pygame.quit()
