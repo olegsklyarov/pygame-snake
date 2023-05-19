@@ -11,8 +11,6 @@ APPLE_COLOR = 'red'
 ROWS = 10
 COLS = 20
 
-# x = randrange(0, ROWS)
-# y = randrange(0, COLS)
 
 def gen_new_apple(field: Field, snake: Snake) -> Element:
   apple = None
@@ -63,7 +61,8 @@ def main():
     clock.tick(60)
     counter += 1
     if not counter % speed:
-      if snake.make_step(apple):
+      is_apple_eaten = snake.move_and_is_eaten(apple)
+      if is_apple_eaten:
         apple = gen_new_apple(field, snake)
 
   pygame.quit()
