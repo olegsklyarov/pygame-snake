@@ -30,7 +30,8 @@ def main():
   screen = pygame.display.set_mode([ROWS * SCALE, COLS * SCALE])
   clock = pygame.time.Clock()
   counter = 0
-  speed = 50
+  snake_speed_limit = 40
+  score = 0
   apple = gen_new_apple(field, snake)
   running = True
   while running:
@@ -60,16 +61,20 @@ def main():
     pygame.display.flip()
     clock.tick(60)
     counter += 1
-    if not counter % speed:
+    if not counter % snake_speed_limit:
       new_head = snake.get_new_head()
       if snake.contains(new_head):
+        print('Snake colliding, game over')
         running = False
       if not field.contains(new_head):
+        print('Wall colliging, game over')
         running = False
       snake.enqueue(new_head)
-      if new_head != apple:
-        snake.dequeue()
-      else:
+      if new_head == apple:
+        score += 1
+        print('Score: {}'.format(score))
         apple = gen_new_apple(field, snake)
+      else:
+        snake.dequeue()
 
   pygame.quit()
