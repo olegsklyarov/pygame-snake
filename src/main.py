@@ -61,8 +61,15 @@ def main():
     clock.tick(60)
     counter += 1
     if not counter % speed:
-      is_apple_eaten = snake.move_and_is_eaten(apple)
-      if is_apple_eaten:
+      new_head = snake.get_new_head()
+      if snake.contains(new_head):
+        running = False
+      if not field.contains(new_head):
+        running = False
+      snake.enqueue(new_head)
+      if new_head != apple:
+        snake.dequeue()
+      else:
         apple = gen_new_apple(field, snake)
 
   pygame.quit()

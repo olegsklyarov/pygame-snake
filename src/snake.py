@@ -40,10 +40,8 @@ class Snake:
     if len(self.snake) == 1 or new_direction.value % 2 != self.direction.value % 2:
       self.direction = new_direction
 
-  def move_and_is_eaten(self, apple: Element) -> bool:
-    new_head = self.get_new_head()
+  def enqueue(self, new_head: Element):
     self.snake.appendleft(new_head)
-    if new_head != apple:
-      self.snake.pop()
-      return False
-    return True
+
+  def dequeue(self):
+    self.snake.pop()

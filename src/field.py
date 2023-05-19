@@ -17,3 +17,6 @@ class Field:
       self.width // 2,
       self.height // 2,
     )
+
+  def contains(self, e: Element) -> bool:
+    return 0 <= e.x < self.width and 0 <= e.y < self.height
