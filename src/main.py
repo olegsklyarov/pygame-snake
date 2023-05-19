@@ -3,7 +3,11 @@ from .field import Field
 from .snake import Snake, Direction
 from .element import Element
 
-SCALE = 30
+SCALE = 40
+RADIUS = 5
+SNAKE_SIZE = 38
+SNAKE_COLOR = 'yellow'
+APPLE_COLOR = 'red'
 ROWS = 10
 COLS = 20
 
@@ -51,9 +55,9 @@ def main():
     screen.fill('black')
 
     for e in snake.snake:
-      pygame.draw.rect(screen, pygame.Color('yellow'), (e.x * SCALE, e.y * SCALE, SCALE - 1, SCALE - 1))
+      pygame.draw.rect(screen, pygame.Color(SNAKE_COLOR), (e.x * SCALE, e.y * SCALE, SNAKE_SIZE, SNAKE_SIZE), 0, RADIUS)
 
-    pygame.draw.rect(screen, pygame.Color('RED'), (apple.x * SCALE, apple.y * SCALE, SCALE - 1, SCALE - 1))
+    pygame.draw.rect(screen, pygame.Color(APPLE_COLOR), (apple.x * SCALE, apple.y * SCALE, SNAKE_SIZE, SNAKE_SIZE), 0, RADIUS)
     
     pygame.display.flip()
     clock.tick(60)
