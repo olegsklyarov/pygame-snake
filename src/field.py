@@ -17,6 +17,10 @@ class Field:
       self.width // 2,
       self.height // 2,
     )
+  
+  def get_center_tuple(self, scale) -> tuple:
+    e = self.get_center_element()
+    return (e.x * scale, e.y * scale)
 
   def contains(self, e: Element) -> bool:
     return 0 <= e.x < self.width and 0 <= e.y < self.height
