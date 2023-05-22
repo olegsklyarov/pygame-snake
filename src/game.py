@@ -1,20 +1,16 @@
-import pygame
-from .field import Field
-from .snake import Snake, Direction
+from random import randrange
+from .snake import Snake
 from .element import Element
+from .infrastructure import Infrastructure
 from .constants import *
 
 
 class Game:
-    def __init__(self) -> None:
-        pygame.init()
-        self.font = pygame.font.Font(None, SCALE)
-        self.screen = pygame.display.set_mode([WIDTH * SCALE, HEIGHT * SCALE])
-        self.clock = pygame.time.Clock()
-
-        self.field = Field(WIDTH, HEIGHT)
-        self.snake = Snake(self.field)
-        self.apple = self.gen_new_apple()
+    def __init__(self, infrastructure: Infrastructure) -> None:
+        self.infrastructure = infrastructure
+        head = self.get_center_element()
+        self.snake = Snake(head)
+        self.apple = self.gen_apple()
 
         self.tick_counter = 0
         self.score = 0
@@ -22,62 +18,51 @@ class Game:
         self.is_running = True
         self.is_game_over = False
 
-    def gen_new_apple(self) -> Element:
+    def gen_random_element(self) -> Element:
+        return Element(
+            randrange(0, WIDTH),
+            randrange(0, HEIGHT),
+        )
+
+    def get_center_element(self) -> Element:
+        return Element(
+            WIDTH // 2,
+            HEIGHT // 2,
+        )
+
+    def is_field_containts(self, element: Element) -> bool:
+        return 0 <= element.x < WIDTH and 0 <= element.y < HEIGHT
+
+    def gen_apple(self) -> Element:
         candidate = None
         while candidate is None:
-            candidate = self.field.gen_random_element()
+            candidate = self.gen_random_element()
             if self.snake.contains(candidate):
                 candidate = None
         return candidate
 
     def is_good_head(self, head: Element) -> bool:
-        return self.field.contains(head) and not self.snake.contains(head)
+        return self.is_field_containts(head) and not self.snake.contains(head)
 
     def process_events(self) -> None:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                print("quit event")
-                self.is_running = False
-
-        key = pygame.key.get_pressed()
-
-        if key[pygame.K_UP]:
-            self.snake.set_direction(Direction.DOWN)
-        if key[pygame.K_RIGHT]:
-            self.snake.set_direction(Direction.RIGHT)
-        if key[pygame.K_DOWN]:
-            self.snake.set_direction(Direction.UP)
-        if key[pygame.K_LEFT]:
-            self.snake.set_direction(Direction.LEFT)
-
-    def draw_element(self, x, y, color):
-        pygame.draw.rect(
-            self.screen,
-            pygame.Color(color),
-            (x * SCALE, y * SCALE, ELEMENT_SIZE, ELEMENT_SIZE),
-            0,
-            RADIUS,
-        )
+        if self.infrastructure.is_quit_event():
+            self.is_running = False
+        new_direction = self.infrastructure.get_pressed_key()
+        if new_direction is not None:
+            self.snake.set_direction(new_direction)
 
     def render(self) -> None:
-        self.screen.fill(SCREEN_COLOR)
+        self.infrastructure.fill_screen()
         for e in self.snake.snake:
-            self.draw_element(e.x, e.y, SNAKE_COLOR)
+            self.infrastructure.draw_element(e.x, e.y, SNAKE_COLOR)
 
-        self.draw_element(self.apple.x, self.apple.y, APPLE_COLOR)
-        self.screen.blit(
-            self.font.render(f"Score: {self.score}", True, pygame.Color(SCORE_COLOR)),
-            (5, 5),
-        )
+        self.infrastructure.draw_element(self.apple.x, self.apple.y, APPLE_COLOR)
+        self.infrastructure.draw_score(self.score)
 
         if self.is_game_over:
-            message = self.font.render("GAME OVER", 1, pygame.Color(GAME_OVER_COLOR))
-            self.screen.blit(
-                message, message.get_rect(center=self.field.get_center_tuple(SCALE))
-            )
+            self.infrastructure.draw_game_over()
 
-        pygame.display.update()
-        self.clock.tick(FPS)
+        self.infrastructure.update_and_tick()
 
     def update_state(self) -> None:
         if self.is_game_over:
@@ -90,7 +75,7 @@ class Game:
                 self.snake.enqueue(new_head)
                 if new_head == self.apple:
                     self.score += 1
-                    self.apple = self.gen_new_apple()
+                    self.apple = self.gen_apple()
                 else:
                     self.snake.dequeue()
             else:
@@ -101,4 +86,4 @@ class Game:
             self.process_events()
             self.update_state()
             self.render()
-        pygame.quit()
+        self.infrastructure.quit()

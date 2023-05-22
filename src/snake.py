@@ -1,22 +1,12 @@
 from collections import deque
-from enum import Enum
-
-from .field import Field
 from .element import Element
-
-
-class Direction(Enum):
-    UP = 1
-    RIGHT = 2
-    DOWN = 3
-    LEFT = 4
+from .direction import Direction
 
 
 class Snake:
-    def __init__(self, field: Field):
-        self.field = field
+    def __init__(self, head: Element):
         self.snake = deque()
-        self.snake.appendleft(field.get_center_element())
+        self.snake.appendleft(head)
         self.direction = Direction.RIGHT
 
     def contains(self, element: Element) -> bool:
