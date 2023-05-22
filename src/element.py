@@ -5,6 +5,3 @@ class Element:
 
   def __eq__(self, o):
     return self.x == o.x and self.y == o.y
-
-  def __str__(self):
-    return "Element: ({} {})".format(self.x, self.y)

@@ -32,7 +32,6 @@ class Game:
     return candidate
 
 
-
   def is_good_head(self, head: Element) -> bool:
     return self.field.contains(head) and not self.snake.contains(head)
 
@@ -54,14 +53,17 @@ class Game:
     if key[pygame.K_LEFT]:
       self.snake.set_direction(Direction.LEFT)
 
+  def draw_element(self, x, y, color):
+    pygame.draw.rect(self.screen, pygame.Color(color), (x * SCALE, y * SCALE, ELEMENT_SIZE, ELEMENT_SIZE), 0, RADIUS)
+
 
   def render(self) -> None:
     self.screen.fill('black')
     for e in self.snake.snake:
-      pygame.draw.rect(self.screen, pygame.Color(SNAKE_COLOR), (e.x * SCALE, e.y * SCALE, SNAKE_SIZE, SNAKE_SIZE), 0, RADIUS)
+      self.draw_element(e.x, e.y, SNAKE_COLOR)
 
-    pygame.draw.rect(self.screen, pygame.Color(APPLE_COLOR), (self.apple.x * SCALE, self.apple.y * SCALE, SNAKE_SIZE, SNAKE_SIZE), 0, RADIUS)
-    self.screen.blit(self.font.render(f'Score: {self.score}', 1, pygame.Color(SCORE_COLOR)), (5, 5))
+    self.draw_element(self.apple.x, self.apple.y, APPLE_COLOR)
+    self.screen.blit(self.font.render(f'Score: {self.score}', True, pygame.Color(SCORE_COLOR)), (5, 5))
 
     if self.is_game_over:
       message = self.font.render('GAME OVER', 1, pygame.Color(GAME_OVER_COLOR))
