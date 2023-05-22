@@ -1,0 +1,10 @@
+WIDTH = 10
+HEIGHT = 20
+SCALE = 40
+RADIUS = 5
+SNAKE_SIZE = 38
+FPS = 60
+SNAKE_COLOR = 'yellow'
+APPLE_COLOR = 'red'
+SCORE_COLOR = 'white'
+GAME_OVER_COLOR = 'red'
