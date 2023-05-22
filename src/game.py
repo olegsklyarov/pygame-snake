@@ -60,7 +60,7 @@ class Game:
         )
 
     def render(self) -> None:
-        self.screen.fill("black")
+        self.screen.fill(SCREEN_COLOR)
         for e in self.snake.snake:
             self.draw_element(e.x, e.y, SNAKE_COLOR)
 

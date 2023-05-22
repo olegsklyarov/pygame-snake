@@ -8,4 +8,5 @@ INITIAL_SPEED_DELAY = FPS // 2
 SNAKE_COLOR = "yellow"
 APPLE_COLOR = "red"
 SCORE_COLOR = "white"
+SCREEN_COLOR = "black"
 GAME_OVER_COLOR = "red"
