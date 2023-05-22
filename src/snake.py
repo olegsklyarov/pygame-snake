@@ -9,7 +9,7 @@ class Snake:
         self.snake.appendleft(head)
         self.direction = Direction.RIGHT
 
-    def contains(self, element: Element) -> bool:
+    def is_contains(self, element: Element) -> bool:
         try:
             self.snake.index(element)
             return True

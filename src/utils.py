@@ -23,13 +23,13 @@ def is_field_containts(element: Element) -> bool:
 
 
 def is_good_head(head: Element, snake: Snake) -> bool:
-    return is_field_containts(head) and not snake.contains(head)
+    return is_field_containts(head) and not snake.is_contains(head)
 
 
 def gen_apple(snake: Snake) -> Element:
     candidate = None
     while candidate is None:
         candidate = gen_random_element()
-        if snake.contains(candidate):
+        if snake.is_contains(candidate):
             candidate = None
     return candidate

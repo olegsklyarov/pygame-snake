@@ -10,7 +10,6 @@ class Game:
         head = get_center_element()
         self.snake = Snake(head)
         self.apple = gen_apple(self.snake)
-
         self.tick_counter = 0
         self.score = 0
         self.snake_speed_delay = INITIAL_SPEED_DELAY
