@@ -5,6 +5,8 @@ from .utils import *
 
 
 class Game:
+    """Контролирует главный цикл игры"""
+
     def __init__(self, infrastructure: Infrastructure) -> None:
         self.infrastructure = infrastructure
         head = get_center_element()
@@ -17,6 +19,7 @@ class Game:
         self.is_game_over = False
 
     def process_events(self) -> None:
+        """Обработка ввода от пользователя"""
         if self.infrastructure.is_quit_event():
             self.is_running = False
         new_direction = self.infrastructure.get_pressed_key()
@@ -24,6 +27,7 @@ class Game:
             self.snake.set_direction(new_direction)
 
     def render(self) -> None:
+        """Обновление экрана: перерисовка змейки, яблока, баллов и game over"""
         self.infrastructure.fill_screen()
         for e in self.snake.snake:
             self.infrastructure.draw_element(e.x, e.y, SNAKE_COLOR)
@@ -37,6 +41,7 @@ class Game:
         self.infrastructure.update_and_tick()
 
     def update_state(self) -> None:
+        """Вычисление следующего состояния всех объектов на экране"""
         if self.is_game_over:
             return
 
@@ -54,6 +59,7 @@ class Game:
                 self.is_game_over = True
 
     def loop(self):
+        """Главный цикл игры"""
         while self.is_running:
             self.process_events()
             self.update_state()

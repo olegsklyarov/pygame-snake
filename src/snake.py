@@ -4,6 +4,10 @@ from .direction import Direction
 
 
 class Snake:
+    """
+    Класс контролирует элементы тела и вектор (направление) движения змейки.
+    """
+
     def __init__(self, head: Element):
         self.snake = deque()
         self.snake.appendleft(head)

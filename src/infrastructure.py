@@ -5,6 +5,11 @@ from .constants import *
 
 
 class Infrastructure:
+    """
+    Инфраструктурный слой предоставляет методы для обращения к библиотеке PyGame.
+    Только в этом файле import pygame.
+    """
+
     def __init__(self):
         pygame.init()
         self.font = pygame.font.Font(None, SCALE)
