@@ -1,4 +1,5 @@
 import pygame
+from typing import Optional
 from .direction import Direction
 from .constants import *
 
@@ -17,7 +18,7 @@ class Infrastructure:
                 return True
         return False
 
-    def get_pressed_key(self) -> Direction | None:
+    def get_pressed_key(self) -> Optional[Direction]:
         key = pygame.key.get_pressed()
         if key[pygame.K_UP]:
             return Direction.DOWN
@@ -49,7 +50,7 @@ class Infrastructure:
         )
 
     def draw_game_over(self) -> None:
-        message = self.font.render("GAME OVER", 1, pygame.Color(GAME_OVER_COLOR))
+        message = self.font.render("GAME OVER", True, pygame.Color(GAME_OVER_COLOR))
         self.screen.blit(
             message,
             message.get_rect(center=((WIDTH // 2 * SCALE), (HEIGHT // 2 * SCALE))),

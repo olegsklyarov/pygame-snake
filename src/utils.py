@@ -5,17 +5,11 @@ from .constants import *
 
 
 def gen_random_element() -> Element:
-    return Element(
-        randrange(0, WIDTH),
-        randrange(0, HEIGHT),
-    )
+    return Element(randrange(0, WIDTH), randrange(0, HEIGHT))
 
 
 def get_center_element() -> Element:
-    return Element(
-        WIDTH // 2,
-        HEIGHT // 2,
-    )
+    return Element(WIDTH // 2, HEIGHT // 2)
 
 
 def is_field_containts(element: Element) -> bool:

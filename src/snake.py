@@ -26,6 +26,7 @@ class Snake:
             return Element(head.x, head.y - 1)
         if self.direction == Direction.LEFT:
             return Element(head.x - 1, head.y)
+        raise Exception("")
 
     def set_direction(self, new_direction) -> None:
         if len(self.snake) == 1 or new_direction.value % 2 != self.direction.value % 2:
