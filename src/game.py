@@ -18,7 +18,7 @@ class Game:
 
         self.tick_counter = 0
         self.score = 0
-        self.snake_speed_delay = 30
+        self.snake_speed_delay = INITIAL_SPEED_DELAY
         self.is_running = True
         self.is_game_over = False
 
